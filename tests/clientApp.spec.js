@@ -89,7 +89,14 @@ test('client app login', async ({ page }) => {
 
     for (let i = 0; i < await row.count(); i++) {
         const rowid = await row.nth(i).locator('th').textContent();
+        if (orderid.includes(rowid)) {
+            await row.nth(i).locator('button').first().click();
+            break;
+        }
     }
+    //verfty that order details are correct
+    const orderiddetails = await page.locator('.col-text').textContent();
+    expect(orderid.includes(orderiddetails)).toBeTruthy();
 
 
 

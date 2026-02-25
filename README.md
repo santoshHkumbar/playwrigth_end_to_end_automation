@@ -137,7 +137,7 @@ npx playwright test --debug
 
 | Test | Description |
 |------|-------------|
-| `client app login` | Logs into the client app, finds a specific product (`ZARA COAT 3`), adds it to cart, verifies its presence, completes checkout with country selection, card details, CVV, and coupon code, places the order, verifies the Thank You confirmation page, and captures the Order ID. |
+| `client app login` | Full end-to-end shopping flow: login, find & add product to cart, checkout with country/card/coupon details, place order, verify Thank You page, capture Order ID, navigate to My Orders page, find the order in the table, open order details, and verify the Order ID matches. |
 
 **Complete Test Flow:**
 ```
@@ -152,12 +152,21 @@ Login
                 ► Click Place Order
                   ► Assert 'Thankyou for the order.' message
                     ► Capture & Log Order ID
+                      ► Navigate to My Orders Page
+                        ► Find Order by ID in Table
+                          ► Open Order Details
+                            ► Verify Order ID Matches
 ```
 
 **Key Assertions:**
-- ✅ `ZARA COAT 3` is visible in the cart (`h3:has-text`)
-- ✅ Thank You page contains `'Thankyou for the order.'`
-- ✅ Order ID is captured and logged to the console
+| # | Assertion | Locator |
+|---|-----------|---------|
+| 1 | `ZARA COAT 3` is visible in cart | `h3:has-text('ZARA COAT 3')` |
+| 2 | Thank You page confirmation | `.hero-primary` contains `'Thankyou for the order.'` |
+| 3 | Order ID captured and logged | `.em-spacer-1 .ng-star-inserted` |
+| 4 | My Orders table loads correctly | `tbody` visible after navigation |
+| 5 | Order ID found in table row | `tbody tr > th` matches captured Order ID |
+| 6 | Order details page ID matches | `.col-text` matches captured Order ID |
 
 ---
 
