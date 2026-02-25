@@ -137,12 +137,27 @@ npx playwright test --debug
 
 | Test | Description |
 |------|-------------|
-| `client app login` | Logs into the client app, finds a specific product (`ZARA COAT 3`), adds it to cart, verifies its presence, and completes the checkout with country selection, card details, CVV, and coupon code. |
+| `client app login` | Logs into the client app, finds a specific product (`ZARA COAT 3`), adds it to cart, verifies its presence, completes checkout with country selection, card details, CVV, and coupon code, places the order, verifies the Thank You confirmation page, and captures the Order ID. |
 
-**Flow:**
+**Complete Test Flow:**
 ```
-Login ► Browse Products ► Add to Cart ► Checkout ► Select Country ► Fill Payment ► Submit
+Login
+  ► Browse Products (list all product names)
+    ► Find 'ZARA COAT 3' & Add to Cart
+      ► Open Cart & Verify Product
+        ► Click Checkout
+          ► Select Country (India - auto-suggest)
+            ► Fill Card Number, CVV & Coupon Code
+              ► Submit Payment
+                ► Click Place Order
+                  ► Assert 'Thankyou for the order.' message
+                    ► Capture & Log Order ID
 ```
+
+**Key Assertions:**
+- ✅ `ZARA COAT 3` is visible in the cart (`h3:has-text`)
+- ✅ Thank You page contains `'Thankyou for the order.'`
+- ✅ Order ID is captured and logged to the console
 
 ---
 

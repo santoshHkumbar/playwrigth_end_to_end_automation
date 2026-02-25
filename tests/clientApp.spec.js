@@ -66,6 +66,32 @@ test('client app login', async ({ page }) => {
     await page.locator('[type="submit"]').click();
 
 
+    //click on the place order
+    await page.locator('.action__submit ').click();
+
+    //thank you page
+    const confirm = await page.locator('.hero-primary').textContent();
+    expect(confirm).toContain(' Thankyou for the order. ');
+
+    //order id
+    const orderid = await page.locator('.em-spacer-1 .ng-star-inserted').textContent();
+    console.log(orderid);
+
+
+    //click on orders pages
+    await page.locator('button[routerlink="/dashboard/myorders"]').click();
+
+    //wait for orders page to load
+    await page.locator('tbody ').waitFor();
+
+    //get all the rows for table
+    const row =await page.locator('tbody tr');
+
+    for (let i = 0; i < await row.count(); i++) {
+        const rowid = await row.nth(i).locator('th').textContent();
+    }
+
+
 
 
 
